@@ -4,6 +4,6 @@
 
 var testOne = require('./lib/clientObj.js');
 
-for (var i = 0; i < 250; i++) {
+for (var i = 0; i < 50; i++) {
     new testOne(i);
 }

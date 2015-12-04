@@ -39,3 +39,22 @@ exports.mapCollisionCheck = function(x, y, pixels,dir, map){
     y + pixels * DIRECTION[dir][1] > map.height ||
     y + pixels * DIRECTION[dir][1] < 0);
 };
+
+exports.rectCollisionCheck = function(x, y, width, height, dir){
+
+};
+
+exports.rndCollisionCheck = function(x, y, radius, dir){
+
+};
+
+exports.rndCollision = function(coordinate, position, dir, radius){
+    if(coordinate == 'x'){
+
+    }
+    else if(coordinate == 'y'){
+
+    }
+    else
+        throw new Error(coordinate + ' is not a coordinate');
+};

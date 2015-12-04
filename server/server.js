@@ -22,15 +22,23 @@ var entDB;
 
 entities.loadData(function(){
     entDB = entities.database.getCollection('Test');
-    io.on('connection', function(socket){
-        entities.addData(Entity, 'Test');
+    io.on('connection', function(){
+        tree.insert(entities.addData(Entity, 'Test'));
     });
     setTimeout(function(){
         console.log((new Date()).getTime() - timeStart);
         timeStart = (new Date()).getTime();
-        for(var entity of entDB.find()){
+        var getData = entDB.find();
+        for(var entity of getData){
             entity.update();
         }
+        /*console.log(tree);
+        tree.clear();
+        console.log("#2 **************");
+        console.log(tree);
+        tree.insert(getData);
+        console.log("#3 **************");
+        console.log(tree);*/
         io.emit('data', entDB.find());
     }, 5000)
 });
