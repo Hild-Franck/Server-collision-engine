@@ -8,17 +8,24 @@ var Database = require('./database.js');
 var Entity = require('./entity.js');
 entities = new Database(['Test']);
 
+var entDB;
+
 entities.loadData(function(){
+    entDB = entities.database.getCollection('Test');
     io.on('connection', function(socket){
-        var i = 0;
         entities.addData(Entity, 'Test');
         setInterval(function() {
+            var player = entDB.findOne().data()[0];
+            console.log(entDB.find());
+            player.update();
             socket.emit('news', {
-                message: i++
+                message:{
+                    x: player.x,
+                    y: player.y,
+                    dir: player.dir
+                }
             });
-        }, 1000);
+        }, 100);
     });
-});setTimeout(function(){
-    console.log(entities.database.collections[0].data);
-}, 5000);
+});
 io.listen(3000);
