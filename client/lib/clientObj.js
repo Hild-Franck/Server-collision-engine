@@ -7,9 +7,10 @@ module.exports = function(_id){
     this.id = _id;
     var socket = require('socket.io-client')('http://127.0.0.1:3000', {forceNew: true});
     socket.on('connect', function(){
-        socket.on('news', function(data){
-            console.log(data.message);
-            console.log('ID: ' + root.id);
+        socket.on('data', function(data){
+            /*console.log(data.message);
+            console.log('ID: ' + root.id);*/
+            console.log((new Date()).getTime());
         });
     });
 };

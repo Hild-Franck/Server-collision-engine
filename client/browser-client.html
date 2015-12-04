@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+</head>
+<body>
+<canvas></canvas>
+</body>
+<script src="lib/SiJe.js"></script>
+<script src="socket.io-client/socket.io.js"></script>
+<script>
+    var socket = io.connect('http://localhost:3000');
+    socket.on('connect', function(){
+        console.log('Connecté au serveur !');
+    });
+    var entities = [];
+    var idArr = [];
+    var timeStart = (new Date()).getTime();
+    var timeOn = (new Date()).getTime();
+
+    socket.on('data', function(data){
+        console.log((new Date()).getTime() - timeOn);
+        data.forEach(function(element){
+            if(idArr.indexOf(element.$loki) == -1) {
+                entities[element.$loki] = new Arc(
+                        element.x,
+                        element.y,
+                        element.radius,
+                        0,
+                        Math.PI * 2,
+                        'red'
+                );
+                idArr.push(element.$loki);
+            }
+            else {
+                entities[element.$loki].x = element.x;
+                entities[element.$loki].y = element.y;
+            }
+        });
+        timeOn = (new Date()).getTime();
+    });
+
+    var canvas = document.getElementsByTagName('canvas')[0];
+    var context = canvas.getContext('2d');
+
+    canvas.height = 300;
+    canvas.width = 300;
+
+    setInterval(function(){
+        timeStart = (new Date()).getTime();
+        clearCanvas(context, canvas);
+        for(var i = 1; i < entities.length; i++) {
+            entities[i].draw(context);
+        }
+        //console.log((new Date()).getTime() - timeStart);
+    })
+</script>
+</html>
