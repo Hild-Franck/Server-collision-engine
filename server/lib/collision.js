@@ -1,5 +1,5 @@
 /**
- * Created by Knaufux on 12/3/2015.
+ * Created by Hild Franck on 12/3/2015.
  */
 
 const DIRECTION = [
@@ -44,17 +44,10 @@ exports.rectCollisionCheck = function(x, y, width, height, dir){
 
 };
 
-exports.rndCollisionCheck = function(x, y, radius, dir){
+exports.rndCollisionCheck = function(xOne, xTwo, yOne, yTwo, radiusOne, radiusTwo){
+    var dx = xOne - xTwo;
+    var dy = yOne - yTwo;
+    var radii = radiusOne + radiusTwo;
 
-};
-
-exports.rndCollision = function(coordinate, position, dir, radius){
-    if(coordinate == 'x'){
-
-    }
-    else if(coordinate == 'y'){
-
-    }
-    else
-        throw new Error(coordinate + ' is not a coordinate');
+    return (( dx * dx )  + ( dy * dy )) < (radii * radii);
 };

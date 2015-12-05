@@ -29,13 +29,16 @@
                         element.radius,
                         0,
                         Math.PI * 2,
-                        'red'
+                        element.colliding ? 'blue' : 'red'
                 );
                 idArr.push(element.$loki);
             }
             else {
+                if(element.colliding)
+                    console.log('IsCollinding');
                 entities[element.$loki].x = element.x;
                 entities[element.$loki].y = element.y;
+                entities[element.$loki].color = element.colliding ? 'blue' : 'red';
             }
         });
         timeOn = (new Date()).getTime();
@@ -54,6 +57,6 @@
             entities[i].draw(context);
         }
         //console.log((new Date()).getTime() - timeStart);
-    })
+    }, 16);
 </script>
 </html>

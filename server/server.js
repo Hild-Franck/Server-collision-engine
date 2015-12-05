@@ -1,5 +1,5 @@
 /**
- * Created by Knaufux on 12/3/2015.
+ * Created by Hild Franck on 12/3/2015.
  */
 
 
@@ -25,22 +25,28 @@ entities.loadData(function(){
     io.on('connection', function(){
         tree.insert(entities.addData(Entity, 'Test'));
     });
-    setTimeout(function(){
-        console.log((new Date()).getTime() - timeStart);
+    setInterval(function(){
         timeStart = (new Date()).getTime();
         var getData = entDB.find();
+
         for(var entity of getData){
             entity.update();
         }
-        /*console.log(tree);
         tree.clear();
-        console.log("#2 **************");
-        console.log(tree);
         tree.insert(getData);
-        console.log("#3 **************");
-        console.log(tree);*/
-        io.emit('data', entDB.find());
-    }, 5000)
+        for(entity of getData){
+            var items = tree.retrieve(entity);
+            for(var item of items){
+                if(entity == item || (entity.colliding && item.colliding)) {
+                    continue;
+                }
+                entity.collide(item);
+            }
+        }
+
+        io.emit('data', getData);
+        console.log((new Date()).getTime() - timeStart);
+    }, 16)
 });
 
 io.listen(3000);

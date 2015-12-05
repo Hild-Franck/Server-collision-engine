@@ -24,16 +24,21 @@ module.exports = function(){
     };
 
     this.update = function() {
+        root.colliding = false;
         root.x = collision.mapCollision('x', root.x, root.speed, root.dir, {width: 300, height: 300});
         root.y = collision.mapCollision('y', root.y, root.speed, root.dir, {width: 300, height: 300});
         if(collision.mapCollisionCheck(root.x, root.y, root.speed, root.dir, {width: 300, height: 300}) ||
-            (new Date()).getTime() - root.counterNwDir >= 1000) {
+            (new Date()).getTime() - root.counterNwDir >= 100) {
             root.changeDir();
             root.counterNwDir = (new Date()).getTime();
         }
-        root.colliding = collision.rndCollisionCheck(root.x, root.y, root.radius);
-        if(root.colliding){
-
-        }
     };
+
+    this.collide = function(entity){
+        var isColliding = collision.rndCollisionCheck(root.x, entity.x, root.y, entity.y, root.radius, entity.radius);
+        if(!root.colliding)
+            root.colliding = isColliding;
+        if(!entity.colliding)
+            entity.colliding = isColliding;
+    }
 };
